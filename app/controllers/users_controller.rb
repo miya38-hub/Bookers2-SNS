@@ -41,6 +41,16 @@ class UsersController < ApplicationController
     @books = @user.books.order(created_at: :desc)  # そのユーザーの投稿本
   end
 
+  def following
+    @user = User.find(params[:id])
+    @users = @user.followings
+  end
+
+  def followers
+    @user = User.find(params[:id])
+    @users = @user.followers
+  end
+
   private
  
     # name, email_address, password, password_confirmation を許可

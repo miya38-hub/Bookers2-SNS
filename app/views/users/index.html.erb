@@ -82,22 +82,63 @@
         <tbody>
           <% @users.each do |user| %>
             <tr>
-              <td>
+              <!-- image -->
+              <td class="align-middle">
                 <%= link_to user_path(user) do %>
-                  <% if user.profile_image.attached? %>
-                    <%= image_tag user.profile_image,
-                                  style: "width:60px;height:60px;object-fit:cover;" %>
+                  <% if user.profile_image&.attached? %>
+                    <%= image_tag user.profile_image, style: "width:60px;height:60px;object-fit:cover;" %>
                   <% else %>
-                    <%= image_tag "no_image.jpg",
-                                  style: "width:60px;height:60px;" %>
+                    <%= image_tag "no_image.jpg", style: "width:60px;height:60px;object-fit:cover;" %>
                   <% end %>
                 <% end %>
               </td>
 
-              <td><%= user.name %></td>
+              <!-- name -->
+              <td class="align-middle">
+                <%= link_to user.name, user_path(user), class: "text-decoration-none" %>
+              </td>
 
-              <td>
-                <%= link_to "Show", user_path(user) %>
+              <!-- follow count -->
+              <td class="align-middle text-center">
+                <%= link_to user.followings.count, following_user_path(user), class: "text-decoration-none" %>
+              </td>
+
+              <!-- follower count -->
+              <td class="align-middle text-center">
+                <%= link_to user.followers.count, followers_user_path(user), class: "text-decoration-none" %>
+              </td>
+
+              <!-- follow button -->
+              <td class="align-middle text-center">
+                <% if user != current_user %>
+                  <% if current_user.following?(user) %>
+                    <% rel = current_user.active_relationships.find_by(followed_id: user.id) %>
+                    <%= button_to "フォロー解除",
+                                  relationship_path(rel),
+                                  method: :delete,
+                                  class: "btn btn-outline-secondary btn-sm" %>
+                  <% else %>
+                    <%= button_to "フォロー",
+                                  relationships_path(followed_id: user.id),
+                                  method: :post,
+                                  class: "btn btn-primary btn-sm" %>
+                  <% end %>
+                <% else %>
+                  <span class="text-muted small">自分</span>
+                <% end %>
+              </td>
+
+              <!-- user's book detail -->
+              <td class="align-middle text-center">
+                <% latest_book = user.books.order(created_at: :desc).first %>
+
+                <% if latest_book.present? %>
+                  <%= link_to "show",
+                              book_path(latest_book),
+                              class: "btn btn-outline-info btn-sm" %>
+                <% else %>
+                  <span class="text-muted small">投稿なし</span>
+                <% end %>
               </td>
             </tr>
           <% end %>

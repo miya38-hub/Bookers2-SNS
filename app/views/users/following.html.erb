@@ -1,0 +1,33 @@
+<h2>Follow Users </h2>
+
+<% if @users.empty? %>
+  <p class="text-muted mt-3">ユーザーはいません</p>
+<% else %>
+  <table class="table mt-3">
+    <thead>
+      <tr>
+        <th style="width:90px;">Image</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @users.each do |u| %>
+        <tr>
+          <td>
+            <%= link_to user_path(u) do %>
+              <% if u.profile_image&.attached? %>
+                <%= image_tag u.profile_image, style: "width:60px;height:60px;object-fit:cover;" %>
+              <% else %>
+                <%= image_tag "no_image.jpg", style: "width:60px;height:60px;object-fit:cover;" %>
+              <% end %>
+            <% end %>
+          </td>
+          <td class="align-middle">
+            <%= link_to u.name, user_path(u), class: "text-decoration-none" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
