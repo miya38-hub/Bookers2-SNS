@@ -5,6 +5,9 @@
     
     <!-- 右側：選択したユーザーの投稿本一覧 -->
     <div class="col-md-8 offset-md-1">
+    <% if current_user.present? %>
+      <%= render "searches/search" %>
+    <% end %>
       <h2> Books</h2>
 
       <table class="table table-hover table-inverse">

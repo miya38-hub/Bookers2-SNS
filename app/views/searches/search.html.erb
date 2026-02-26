@@ -1,0 +1,40 @@
+<h3>Search Results</h3>
+
+<% if @results.blank? %>
+  <p class="text-muted">該当なし</p>
+<% else %>
+  <table class="table table-hover table-inverse">
+    <thead>
+      <tr>
+        <th style="width:80px;"></th>
+        <th>Title</th>
+        <th>Opinion</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @results.each do |book| %>
+        <tr>
+          <!-- プロフィール画像 -->
+          <td>
+            <%= link_to user_path(book.user) do %>
+              <% if book.user.profile_image&.attached? %>
+                <%= image_tag book.user.profile_image,
+                              style: "width:50px;height:50px;object-fit:cover;" %>
+              <% else %>
+                <%= image_tag "no_image.jpg",
+                              style: "width:50px;height:50px;" %>
+              <% end %>
+            <% end %>
+          </td>
+
+          <!-- title -->
+          <td><%= link_to book.title, book_path(book) %></td>
+
+          <!-- opinion -->
+          <td><%= book.body %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

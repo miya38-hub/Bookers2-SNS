@@ -67,7 +67,9 @@
 
     <!-- ===== 右側 Users一覧 ===== -->
     <div class="col-md-8 offset-md-1">
-
+    <% if current_user.present? %>
+      <%= render "searches/search" %>
+    <% end %>
       <h2>Users</h2>
 
       <table class="table table-hover table-inverse">
