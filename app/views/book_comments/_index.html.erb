@@ -1,0 +1,34 @@
+<% book_comments.each do |comment| %>
+  <div class="d-flex justify-content-between align-items-start border-bottom py-3">
+    <div class="d-flex gap-3">
+      <div class="text-center" style="width: 110px;">
+        <%= link_to user_path(comment.user) do %>
+          <% if comment.user.profile_image&.attached? %>
+            <%= image_tag comment.user.profile_image, class: "rounded-circle",
+                  style: "width:80px;height:80px;object-fit:cover;" %>
+          <% else %>
+            <%= image_tag "no_image.jpg", class: "rounded-circle",
+                  style: "width:80px;height:80px;object-fit:cover;" %>
+          <% end %>
+        <% end %>
+
+        <div class="mt-2 small fw-bold">
+          <%= link_to comment.user.name, user_path(comment.user), class: "text-decoration-none" %>
+        </div>
+      </div>
+
+      <div>
+        <%= simple_format(h(comment.comment)) %>
+      </div>
+    </div>
+
+    <div>
+      <% if comment.user == current_user %>
+        <%= link_to "削除",
+              book_book_comment_path(book, comment),
+              class: "btn btn-sm btn-outline-danger",
+              data: { turbo_method: :delete, turbo_confirm: "削除しますか？" } %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

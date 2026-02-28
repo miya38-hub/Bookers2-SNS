@@ -1,0 +1,5 @@
+<%= turbo_stream.update "book-comments-index" do %>
+  <%= render partial: "book_comments/index",
+             locals: { book: @book, book_comments: @book_comments } %>
+<% end %>
+

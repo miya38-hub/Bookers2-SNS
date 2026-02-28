@@ -1,0 +1,10 @@
+<%= turbo_stream.update "book-comments-index" do %>
+  <%= render partial: "book_comments/index",
+             locals: { book: @book, book_comments: @book_comments } %>
+<% end %>
+
+<%= turbo_stream.update "book-comments-form" do %>
+  <%= render partial: "book_comments/form",
+             locals: { book: @book, book_comment: BookComment.new } %>
+<% end %>
+
